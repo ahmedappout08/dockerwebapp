@@ -35,3 +35,5 @@ spec:
         image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:latest
         ports:
         - containerPort: 80
+      imagePullSecrets:
+        - name: regcred
