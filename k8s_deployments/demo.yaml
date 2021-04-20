@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo
+spec:
+
+  ports:
+  - port: 8080
+    targetPort: 80
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  selector:
+    app: demo
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo
+spec:
+  
+  selector:
+    matchLabels:
+      app: demo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      nodeSelector:
+         beta.kubernetes.io/os: linux
+      containers:
+      - name: demo
+        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:latest
+        ports:
+        - containerPort: 80
