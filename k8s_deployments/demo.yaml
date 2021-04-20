@@ -5,7 +5,7 @@ metadata:
 spec:
 
   ports:
-  - port: 8080
+  - port: 8500
     targetPort: 80
   type: LoadBalancer
   externalTrafficPolicy: Local
