@@ -7,7 +7,7 @@ spec:
   ports:
   - port: 8500
     targetPort: 80
-  type: LoadBalancer
+  type: NodePort
   externalTrafficPolicy: Local
   selector:
     app: demo
