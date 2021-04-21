@@ -7,7 +7,7 @@ spec:
   ports:
   - port: 8500
     targetPort: 80
-  type: NodePort
+  type: ClusterIP
   externalTrafficPolicy: Local
   selector:
     app: demo
