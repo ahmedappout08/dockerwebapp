@@ -31,7 +31,7 @@ spec:
          beta.kubernetes.io/os: linux
       containers:
       - name: demo
-        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:1.9.5
+        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:1.9.7
         ports:
         - containerPort: 80
         imagePullPolicy: IfNotPresent
