@@ -28,7 +28,7 @@ spec:
          beta.kubernetes.io/os: linux
       containers:
       - name: demo
-        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:0.3
+        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:3.0
         envFrom:
         - secretRef:
             name: demo-secrets
