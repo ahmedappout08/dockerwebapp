@@ -44,5 +44,5 @@ metadata:
   labels:
     app: demo
 stringData: 
-  sec1 : "data1"
-  sec2 : "data2"
+  sec3 : "data1"
+  sec4 : "data2"
