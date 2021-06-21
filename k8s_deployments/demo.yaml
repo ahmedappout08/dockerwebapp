@@ -29,7 +29,20 @@ spec:
       containers:
       - name: demo
         image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:0.2.4
+        envFrom:
+        - secretRef:
+            name: demo-secrets
         ports:
         - containerPort: 80
       imagePullSecrets:
         - name: regcred
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: demo-secrets
+  labels:
+    app: demo
+stringData: 
+  sec1 : "data1"
+  sec2 : "data2"
