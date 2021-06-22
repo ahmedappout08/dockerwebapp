@@ -28,7 +28,7 @@ spec:
          beta.kubernetes.io/os: linux
       containers:
       - name: demo
-        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:3.0
+        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:3.2
         envFrom:
         - secretRef:
             name: demo-secrets
@@ -36,14 +36,4 @@ spec:
         - containerPort: 80
       imagePullSecrets:
         - name: regcred
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: demo-secrets
-  labels:
-    app: demo
-stringData: 
-  sec3 : "data1"
-  sec4 : "data2"
 
