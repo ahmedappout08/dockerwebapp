@@ -11,7 +11,7 @@ version
 
 update
 
-new staging
+new-staging
 
 	
 
