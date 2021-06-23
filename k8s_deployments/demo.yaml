@@ -28,12 +28,15 @@ spec:
          beta.kubernetes.io/os: linux
       containers:
       - name: demo
+
         image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:4.3
         envFrom:
         - secretRef:
             name: demo-secrets
+
         ports:
         - containerPort: 80
+        imagePullPolicy: IfNotPresent
       imagePullSecrets:
         - name: regcred
 
