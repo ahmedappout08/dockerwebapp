@@ -71,13 +71,18 @@ jobs:
           echo VERSION=$VERSION
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
-      - name: Deploy to Kubernetes cluster                                                                            
-        uses: kodermax/kubectl-aws-eks@master                                                                         
-        env:                                                                                                          
-         RELEASE_IMAGE: docker.pkg.github.com/ahmedappout08/dockerwebapp/master:${{ env.RELEASE_REVISION }}
-        with:                                                                                                         
-           args: set image deployment/my-pod app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE   
-      - name: Verify Kubernetes deployment                               
-        uses: kodermax/kubectl-aws-eks@master                            
-        with:                                                            
-           args: rollout status deploy my-pod -n $KUBE_NAMESPACE 
+  deploy:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Create kubeconfig
+      run: |
+        mkdir ${HOME}/.kube
+        echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+        cat ${HOME}/.kube/config
+    - name: Use context
+      run: kubectl config use-context kubectl-api
+    - name: Deploy to K8s
+      run: kubectl apply -f k8s/
