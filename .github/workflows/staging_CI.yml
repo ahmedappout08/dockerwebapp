@@ -2,10 +2,12 @@ name: Docker
 
 on:
 
-
-
-
-
+  push:
+    branches:
+      - staging
+  pull_request:
+    branches:
+      - staging
 
 env:
   # TODO: Change variable to your image's name.
