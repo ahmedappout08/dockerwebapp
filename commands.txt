@@ -8,13 +8,21 @@ docker run -p 49160:8080 miltonc/dockerwebapp
 
 http://localhost:49160
 
-version
+
+test 
+
+master
 
 
-update
+test
 
-new
 
-	
+rfsdfad
+
+
+
+
+
+
 
 
