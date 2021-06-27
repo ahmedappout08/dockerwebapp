@@ -73,9 +73,8 @@ jobs:
           docker push $IMAGE_ID:$VERSION
 
       - name: Deploy to Kubernetes
-        uses: ianbelcher/eks-kubectl-action@master
+        uses: kodermax/kubectl-aws-eks@master
+        env:
+          RELEASE_IMAGE: docker.pkg.github.com/ahmedappout08/dockerwebapp/master:latest
         with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}        
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
           args: set image deployment/my-pod app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE   
