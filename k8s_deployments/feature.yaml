@@ -1,10 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: python-example
-  labels:
-    app: python-example
-metadata:
   name: test-image
   labels:
     app: test-image
@@ -13,15 +9,26 @@ spec:
     matchLabels:
       app: test-image
       tier: frontend
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
         app: test-image
         tier: frontend
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: env
+                operator: In
+                values:
+                - production
       containers:
-      - name: python-example
-        image: <IMAGE>
+      - image: TEST_IMAGE_NAME
+        name: test-image
         ports:
         - containerPort: 8500
         resources:
@@ -29,6 +36,13 @@ spec:
             cpu: 100m
           limits:
             cpu: 100m
+      imagePullSecrets:
+        - name: regcred  
+      tolerations:
+        - key: "production"
+          operator: "Equal"
+          value: "LG"
+          effect: "NoSchedule"
 ---
 apiVersion: v1
 kind: Service
