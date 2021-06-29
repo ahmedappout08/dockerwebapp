@@ -72,7 +72,21 @@ jobs:
           docker push $IMAGE_ID:$VERSION
       - name: Update deployment file
         run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:'${TAG}'|' $GITHUB_WORKSPACE/k8s_deployments/feature.yaml
-      - name: Login EKS
-        run: |
-          aws eks --region eu-west-2 update-kubeconfig --name dev-cluster-2 --role-arn arn:aws:iam::737285044561:role/k8sDev
+  deploy:
+    name: deploy to cluster
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+    
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
  
