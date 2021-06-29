@@ -72,7 +72,7 @@ jobs:
           docker push $IMAGE_ID:$VERSION
       - name: Update deployment file
         run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:'${TAG}'|' $GITHUB_WORKSPACE/k8s_deployments/feature.yaml
-      - name: Deploy to Kubernetes
+      - name: Login EKS
         run: |
-          kubectl get pods
+          aws eks --region eu-west-2 update-kubeconfig --name dev-cluster-2 --role-arn arn:aws:iam::737285044561:role/k8sDev
  
