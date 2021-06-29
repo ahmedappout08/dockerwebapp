@@ -70,9 +70,8 @@ jobs:
           echo VERSION=${GITHUB_REF##*/}
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
-      - name: Install kubectl
-        run: |
-          sudo apt-get install kubectl
+      - name: Update deployment file
+        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:'${TAG}'|' $GITHUB_WORKSPACE/k8s_deployments/feature.yaml
       - name: Deploy to Kubernetes
         run: |
           kubectl get pods
