@@ -71,10 +71,10 @@ jobs:
           echo VERSION=$VERSION
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
-
+      - name: Install kubectl
+        run: |
+          sudo apt-get install kubectl
       - name: Deploy to Kubernetes
-        uses: kodermax/kubectl-aws-eks@master
-        env:
-          RELEASE_IMAGE: docker.pkg.github.com/ahmedappout08/dockerwebapp/master:latest
-        with:
-          args: set image deployment/my-pod app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE   
+        run: |
+          kubectl get pods
+ 
