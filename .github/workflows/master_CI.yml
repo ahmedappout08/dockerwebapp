@@ -13,13 +13,6 @@ on:
 env:
   # TODO: Change variable to your image's name.
   IMAGE_NAME: demo
-  RELEASE_REVISION: latest
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-  KUBE_NAMESPACE: lg-gulf-ka-robodesk
-  ECR_REPOSITORY: demo
 
 jobs:
   # Run tests.
@@ -76,8 +69,6 @@ jobs:
     name: deploy to cluster
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
