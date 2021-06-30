@@ -88,7 +88,7 @@ jobs:
       - name: Deploy to Kubernetes
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
-        run: kubectl apply  -f $GITHUB_WORKSPACE/k8s_deployments/feature.yaml --kubeconfig ${{ env.KUBE_CONFIG_DATA }} --record -n lg-gulf-ka-robodesk
+        run: kubectl apply  -f $GITHUB_WORKSPACE/k8s_deployments/feature.yaml --kubeconfig ${{ env.KUBE_CONFIG_DATA }} -n lg-gulf-ka-robodesk
         
       - name: verify deployment
         uses: kodermax/kubectl-aws-eks@master
