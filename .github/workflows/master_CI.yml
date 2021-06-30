@@ -77,25 +77,25 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       
-      #- name: deploy to cluster
-      #  uses: kodermax/kubectl-aws-eks@master
-      #  env:
-      #    KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
-      #    RELEASE_IMAGE: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:${GITHUB_REF##*/}
-      #  with:
-      #    args: set image deployment/my-app app=${{ env.RELEASE_IMAGE }} --record -n lg-gulf-ka-robodesk
+      - name: deploy to cluster
+        uses: kodermax/kubectl-aws-eks@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
+          RELEASE_IMAGE: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:${GITHUB_REF##*/}
+        with:
+          args: set image deployment/my-app app=${{ env.RELEASE_IMAGE }} --record -n lg-gulf-ka-robodesk
       
       #- name: Deploy to Kubernetes
       #  env:
       #    KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
       #  run: kubectl apply  -f $GITHUB_WORKSPACE/k8s_deployments/feature.yaml --kubeconfig ${{ env.KUBE_CONFIG_DATA }} --namespace lg-gulf-ka-robodesk
         
-      - name: helm deploy
-        uses: koslibpro/helm-eks-action@master
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-        with:
-          command: helm upgrade --install myrelease http://www.koslib.com/mycharts/servicetpl-0.4.2.tgz  --set image.tag=${GITHUB_REF##*/} --wait
+      #- name: helm deploy
+      #  uses: koslibpro/helm-eks-action@master
+      #  env:
+      #    KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      #  with:
+      #    command: helm upgrade --install myrelease http://www.koslib.com/mycharts/servicetpl-0.4.2.tgz  --set image.tag=${GITHUB_REF##*/} --wait
       - name: verify deployment
         uses: kodermax/kubectl-aws-eks@master
         env:
