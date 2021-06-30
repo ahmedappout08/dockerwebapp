@@ -77,11 +77,20 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       
-      - uses: danielr1996/kubectl-action@1.0.0
-        name: Deploy
-        with:
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
-          args: apply -f $GITHUB_WORKSPACE/k8s_deployments/feature.yaml -n lg-gulf-ka-robodesk
+    - name: deploy to cluster
+      uses: kodermax/kubectl-aws-eks@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
+        RELEASE_IMAGE: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:${GITHUB_REF##*/}
+      with:
+        args: set image deployment/my-app app=${{ env.RELEASE_IMAGE }} --record -n lg-gulf-ka-robodesk
+        
+    - name: verify deployment
+      uses: kodermax/kubectl-aws-eks@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      with:
+        args: rollout status deployment/my-app
 
 
  
