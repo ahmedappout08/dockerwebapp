@@ -97,6 +97,8 @@ jobs:
       #  with:
       #    command: helm upgrade --install myrelease http://www.koslib.com/mycharts/servicetpl-0.4.2.tgz  --set image.tag=${GITHUB_REF##*/} --wait
       - uses: jtalk/k8s-deploy@v2
+          env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
         with:
           namespace: 'lg-gulf-ka-robodesk'
           images: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:${GITHUB_REF##*/}
