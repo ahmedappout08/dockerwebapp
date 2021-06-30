@@ -96,9 +96,13 @@ jobs:
       #    KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       #  with:
       #    command: helm upgrade --install myrelease http://www.koslib.com/mycharts/servicetpl-0.4.2.tgz  --set image.tag=${GITHUB_REF##*/} --wait
+      - uses: azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA_STAGING }} # Use secret (https://developer.github.com/actions/managing-workflows/storing-secrets/)
+                  #If left unspecified, current-context from kubeconfig is used as default
+          id: setcontext
       - uses: jtalk/k8s-deploy@v2
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
         with:
           namespace: 'lg-gulf-ka-robodesk'
           images: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:${GITHUB_REF##*/}
