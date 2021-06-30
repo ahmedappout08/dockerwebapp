@@ -77,8 +77,6 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       
-      - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f $GITHUB_WORKSPACE/k8s_deployments/feature.yaml -n lg-gulf-ka-robodesk
       - uses: danielr1996/kubectl-action@1.0.0
         name: Deploy
         with:
