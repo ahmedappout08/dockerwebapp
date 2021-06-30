@@ -78,6 +78,12 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       
       - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply --kubeconfig=${{ secrets.KUBE_CONFIG_DATA}} -f $GITHUB_WORKSPACE/k8s_deployments/feature.yaml -n lg-gulf-ka-robodesk
+        run: kubectl apply -f $GITHUB_WORKSPACE/k8s_deployments/feature.yaml -n lg-gulf-ka-robodesk
+      - uses: danielr1996/kubectl-action@1.0.0
+        name: Deploy
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          args: apply -f $GITHUB_WORKSPACE/k8s_deployments/feature.yaml -n lg-gulf-ka-robodesk
+
 
  
