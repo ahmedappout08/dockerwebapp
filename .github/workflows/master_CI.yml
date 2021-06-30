@@ -66,16 +66,16 @@ jobs:
       - name: Update deployment file
         run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:'${TAG}'|' $GITHUB_WORKSPACE/k8s_deployments/feature.yaml
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+      #- name: Configure AWS credentials
+      #  uses: aws-actions/configure-aws-credentials@v1
+      #  with:
+      #    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #    aws-region: ${{ secrets.AWS_REGION }}
     
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      #- name: Login to Amazon ECR
+      #  id: login-ecr
+      #  uses: aws-actions/amazon-ecr-login@v1
       
       #- name: deploy to cluster
       #  uses: kodermax/kubectl-aws-eks@master
@@ -96,25 +96,42 @@ jobs:
       #    KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       #  with:
       #    command: helm upgrade --install myrelease http://www.koslib.com/mycharts/servicetpl-0.4.2.tgz  --set image.tag=${GITHUB_REF##*/} --wait
-      - uses: azure/k8s-set-context@v1
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA_STAGING }} # Use secret (https://developer.github.com/actions/managing-workflows/storing-secrets/)
+      #- uses: azure/k8s-set-context@v1
+      #  with:
+      #    method: kubeconfig
+      #    kubeconfig: ${{ secrets.KUBE_CONFIG_DATA_STAGING }} # Use secret (https://developer.github.com/actions/managing-workflows/storing-secrets/)
                   #If left unspecified, current-context from kubeconfig is used as default
-          id: kubeconfig
-      - uses: jtalk/k8s-deploy@v2
+      #    id: kubeconfig
+      #- uses: jtalk/k8s-deploy@v2
+      #  with:
+      #    namespace: 'lg-gulf-ka-robodesk'
+      #    images: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:${GITHUB_REF##*/}
+      #    manifests: |
+      #       k8s_deployments/feature.yaml
+      #- name: verify deployment
+      #  uses: kodermax/kubectl-aws-eks@master
+      #  env:
+      #    KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      #  with:
+      #    args: rollout status deployment/my-app
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          namespace: 'lg-gulf-ka-robodesk'
-          images: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:${GITHUB_REF##*/}
-          manifests: |
-             k8s_deployments/feature.yaml
-      - name: verify deployment
-        uses: kodermax/kubectl-aws-eks@master
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Trigger deploy
+        uses: Consensys/kubernetes-action@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          args: rollout status deployment/my-app
-          
+          args: apply $GITHUB_WORKSPACE/k8s_deployments/feature.yaml -n lg-gulf-ka-robodesk
 
 
  
