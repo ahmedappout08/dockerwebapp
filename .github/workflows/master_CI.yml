@@ -77,20 +77,20 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       
-    - name: deploy to cluster
-      uses: kodermax/kubectl-aws-eks@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
-        RELEASE_IMAGE: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:${GITHUB_REF##*/}
-      with:
-        args: set image deployment/my-app app=${{ env.RELEASE_IMAGE }} --record -n lg-gulf-ka-robodesk
+      - name: deploy to cluster
+        uses: kodermax/kubectl-aws-eks@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
+          RELEASE_IMAGE: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:${GITHUB_REF##*/}
+        with:
+          args: set image deployment/my-app app=${{ env.RELEASE_IMAGE }} --record -n lg-gulf-ka-robodesk
         
-    - name: verify deployment
-      uses: kodermax/kubectl-aws-eks@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      with:
-        args: rollout status deployment/my-app
+      - name: verify deployment
+        uses: kodermax/kubectl-aws-eks@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: rollout status deployment/my-app
 
 
  
