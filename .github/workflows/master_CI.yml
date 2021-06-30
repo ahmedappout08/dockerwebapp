@@ -101,7 +101,7 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG_DATA_STAGING }} # Use secret (https://developer.github.com/actions/managing-workflows/storing-secrets/)
                   #If left unspecified, current-context from kubeconfig is used as default
-          id: 'kubeconfig'
+          id: kubeconfig
       - uses: jtalk/k8s-deploy@v2
         with:
           namespace: 'lg-gulf-ka-robodesk'
