@@ -116,22 +116,23 @@ jobs:
       #    args: rollout status deployment/my-app
   deploy:
     runs-on: ubuntu-latest
+    needs: [build]
+
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure AWS Credentials
+      - name: AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: us-east-1  # change as needed
 
-      - name: Trigger deploy
-        uses: Consensys/kubernetes-action@master
+      - name: helm deploy
+        uses: koslibpro/helm-eks-action@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          args: apply $GITHUB_WORKSPACE/k8s_deployments/feature.yaml -n lg-gulf-ka-robodesk
-
+          command: helm install --install myrelease http://www.koslib.com/mycharts/servicetpl-0.4.2.tgz -f .values.yaml --set image.tag=${{ github.sha }} --wait
 
  
