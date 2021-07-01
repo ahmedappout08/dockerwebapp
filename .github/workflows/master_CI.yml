@@ -133,6 +133,6 @@ jobs:
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          command: helm upgrade --install myrelease https://github.com/koslib/mycharts/blob/master/servicetpl-0.10.0.tgz -f .values.yaml --set image.tag=${{ github.sha }} --wait
+          command: helm upgrade --install myrelease https://github.com/koslib/mycharts/blob/master/servicetpl-0.10.0.tgz -f values.yaml --set image.tag=${{ github.sha }} --wait
 
  
