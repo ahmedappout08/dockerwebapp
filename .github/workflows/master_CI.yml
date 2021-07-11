@@ -67,7 +67,7 @@ jobs:
         run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:'${TAG}'|' $GITHUB_WORKSPACE/k8s_deployments/feature.yaml
       - name: some commands 
         run: | 
-          ls 
+          kubectl
       #- name: Configure AWS credentials
       #  uses: aws-actions/configure-aws-credentials@v1
       #  with:
