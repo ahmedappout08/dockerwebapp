@@ -29,7 +29,7 @@ spec:
       containers:
       - name: demo
 
-        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/image:4.3
+        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:master
         envFrom:
         - secretRef:
             name: demo-secrets
