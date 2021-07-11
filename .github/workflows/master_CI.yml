@@ -65,9 +65,15 @@ jobs:
   ###        docker push $IMAGE_ID:$VERSION
   ###    - name: Update deployment file
   ###      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:'${TAG}'|' $GITHUB_WORKSPACE/k8s_deployments/feature.yaml
-    - name: some commands 
-      run: | 
-          aws sts get-caller-identity
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+    - name: AWS check
+      run: |
+        aws sts get-caller-identity
       #- name: Configure AWS credentials
       #  uses: aws-actions/configure-aws-credentials@v1
       #  with:
