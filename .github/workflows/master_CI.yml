@@ -76,7 +76,7 @@ jobs:
         aws sts get-caller-identity
     - name: check pwd
       run: |
-        pwd
+        kubectl apply -f ./k8s_deployments/demo.yaml -n lg-gulf-ka-robodesk
       #- name: Configure AWS credentials
       #  uses: aws-actions/configure-aws-credentials@v1
       #  with:
