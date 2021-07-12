@@ -12,7 +12,7 @@ http://localhost:49160
 
 staging 
 
-
+live
 
 
 
