@@ -29,7 +29,8 @@ jobs:
 
 
     steps:
-    - uses: actions/checkout@v2
+      - name: Checkout master
+        uses: actions/checkout@main
 
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
