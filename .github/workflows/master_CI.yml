@@ -4,8 +4,6 @@ on:
   
   push:
     branches:
-      - itr**
-      - master
 
   pull_request:
     branches:
