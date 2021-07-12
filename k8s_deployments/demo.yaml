@@ -29,7 +29,7 @@ spec:
       containers:
       - name: demo
 
-        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:merge
+        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:staging
         envFrom:
         - secretRef:
             name: demo-secrets
