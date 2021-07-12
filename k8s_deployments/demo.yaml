@@ -29,14 +29,14 @@ spec:
       containers:
       - name: demo
 
-        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:master
+        image: docker.pkg.github.com/ahmedappout08/dockerwebapp/demo:staging
         envFrom:
         - secretRef:
             name: demo-secrets
 
         ports:
         - containerPort: 80
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
       imagePullSecrets:
         - name: regcred
 
