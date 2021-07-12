@@ -4,9 +4,6 @@ on:
   
   push:
     branches:
-      - itr**
-      - master
-      - staging
 
   pull_request:
     branches:
